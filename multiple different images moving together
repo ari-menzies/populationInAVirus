@@ -1,0 +1,165 @@
+import javax.swing.*;
+import java.awt.*;
+import java.util.Scanner;
+import java.awt.geom.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
+import java.util.ArrayList;
+
+/**
+ * Slap21 virus.
+ *
+ * @author (Ari)
+ * @version (16/06/25)
+ */
+public class Slap21 extends JFrame
+{
+    int frameWidth = 1000;
+    int frameHeight = 650;
+    int imageX = 500;
+    int  imageY = 325;
+    String title = "Slap-21 Virus Simulation";
+    Timer timer; // Declare the timer as an instance variable
+    
+    ArrayList<Point> blackCircles = new ArrayList<>();
+    ArrayList<Point> infectedCircles = new ArrayList<>();
+    public Slap21()
+    {
+        //ImageIcon backgroundIcon = new ImageIcon("background.jpg");
+        //Image scaleImage = backgroundIcon.getImage().getScaledInstance(100, 100,Image.SCALE_DEFAULT);
+        //BufferedImage resizedImage = new BufferedImage(width, height, type);
+
+        
+        setTitle(title);
+        this.getContentPane().setPreferredSize(new Dimension(frameWidth, frameHeight));
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setResizable(false);
+        this.pack();
+        this.toFront();
+        this.setVisible(true);
+        //JLabel backgroundLabel = new JLabel(backgroundIcon);
+        //backgroundLabel.setLayout(new BorderLayout()); // Or other layout manager
+        //backgroundLabel.setBounds(0, 0, width, height); // Set to cover the entire frame
+        //this.setContentPane(backgroundLabel);
+        
+        Random randomStart = new Random();
+        
+        for (int i = 0; i < 10; i++){
+            int startX = (int) (Math.random() * 20 + 1) * 50;
+            int startY = (int) (Math.random() * 13 + 1) * 50;
+            blackCircles.add(new Point(startX, startY));
+        }
+    
+        for (int i = 0; i < 10; i++){
+            int startX = (int) (Math.random() * 20 + 1) * 50;
+            int startY = (int) (Math.random() * 13 + 1) * 50;
+            blackCircles.add(new Point(startX, startY));
+        }
+        timer = new Timer(200, new ActionListener()
+        {
+            int currentGen = 0;
+            public void actionPerformed(ActionEvent e) {
+                if (currentGen < 50) {
+                    currentGen++;
+                    System.out.print("\nGeneration " + currentGen);
+
+                    for (int i = 0; i < blackCircles.size(); i++){
+                        Point p = blackCircles.get(i);
+                
+                        
+                    }
+                    
+                    repaint();
+                } else {
+                    ((Timer) e.getSource()).stop(); // stops the simulation
+                }
+            }
+        }
+        );
+        timer.start();
+        
+        
+    }
+    public void imageMovement(Point p){
+        int random = (int)Math.ceil(Math.random()*4); // a random number between 1 and 4 but always round up so as not to get 0
+                        //int random = (int)Math.ceil(Math.random()+3); // a random number between 1 and 4 but always round up so as not to get 0
+
+                                switch (random){
+                            case 1 : p.x = p.x + 50;
+                            repaint();
+                            //System.out.println("\nright");
+                            break;
+                            case 2 : p.x = p.x - 50;
+                            repaint();
+                            // System.out.println("\nleft");
+                            break;
+                            case 3 : p.y = p.y + 50;
+                            repaint();
+                            //System.out.println("\ndown");
+                            break;
+                            case 4 : p.y = p.y - 50;
+                            repaint();
+                            //System.out.println("\nup");
+                            break;
+                        }
+                        if (p.x<0){
+                            p.x = p.x + 50;
+                        } else if(p.x>950) {
+                            p.x = p.x - 50;
+                        } else if (p.y<0){
+                            p.y = p.y + 50;
+                        } else if (p.y>600){
+                            p.y = p.y - 50;
+                        }
+    }
+    public void paint(Graphics g) {
+        super.paint(g);
+
+        ImageIcon blackCircle = new ImageIcon("BlackCircle.png");
+        ImageIcon greenCircle = new ImageIcon("GreenCircle.png");
+
+        int greenWidth = greenCircle.getIconWidth(); 
+        int greenHeight = greenCircle.getIconHeight();
+        
+        int BlackWidth = blackCircle.getIconWidth(); 
+        int BlackHeight = blackCircle.getIconHeight();
+        
+        //System.out.println("WIDTH AND HEIGHT: " +BlackWidth +" " +  BlackHeight +" " + greenWidth +" " + greenHeight);
+
+        for (Point p : imagePositions) {
+            blackCircle.paintIcon(this, g, p.x, p.y);
+        }
+    }
+    public void moveImage(){
+        for (int i = 0; i>5; i++){
+            try{
+                int random = (int)Math.round(Math.random()*4);
+
+                switch (random){
+                    case 0 : imageX = imageX + 200;
+                    repaint();
+                    System.out.println("right");
+                    break;
+                    case 1 : imageX = imageX - 200;
+                    repaint();
+                     System.out.println("right");
+                    break;
+                    case 2 : imageY = imageY + 200;
+                    repaint();
+                    System.out.println("right");
+                    break;
+                    case 3 : imageY = imageY - 200;
+                    repaint();
+                    System.out.println("right");
+                    break;
+                }
+            }
+            catch (Exception ie){
+                ie.printStackTrace();
+            }
+            
+            
+        }
+    }
+}
